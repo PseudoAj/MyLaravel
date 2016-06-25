@@ -1,2 +1,3 @@
-# MyLaravel
-Repository of my notes from laravel
+# My Laravel
+
+Repository of my notes from laravel tutorial. 
