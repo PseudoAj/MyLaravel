@@ -255,6 +255,79 @@ $newSen=new Senator();
 Output: ```Bash
 PHP Fatal error:  Class Senator contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Politician::canPassbill) in ```
 
+
+## Lesson 5: Messages 101
+Classes can be nicely structured using the type hinting(allow custom types be declared) and messages(notifying different classes about the action). In the following example consider the `Student` class is type hinted in `University class`. Also, `depends` is a key concept to link classes. Here University depends on students. Here is the example:
+```PHP
+<?php
+
+class Student{
+
+  protected $name; //declare the name
+
+  public function __construct($name){
+    $this->name=$name;//assign the name
+  }
+}
+
+class University{
+
+  protected $course;
+
+  public function __construct(Course $course){
+    $this->course=$course;
+  }
+
+  public function enroll(Student $name){//type hinting in action
+    $this->course->add($name);
+  }
+
+  public function getCourseStudents(){
+    return $this->course->getRegistered();
+  }
+}
+
+class Course{
+
+  protected $enrolled =[];
+  //if you want to add it right away
+  public function __construct($enroll=[]){//default to array
+    $this->enrolled=$enroll;
+  }
+  //if you want to call separate method
+  public function add(Student $name){
+    $this->enrolled[] = $name;
+  }
+  //return array
+  public function getRegistered(){
+    return $this->enrolled;
+  }
+}
+
+$newStudent = new Student("Ajay");
+$newCourse = new Course([$newStudent]);
+$myUniversity = new University($newCourse);
+$myUniversity->enroll(new Student("Kavuri"));
+var_dump($myUniversity->getCourseStudents());
+
+```
+Output:
+```PHP
+array(2) {
+  [0]=>
+  object(Student)#1 (1) {
+    ["name":protected]=>
+    string(4) "Ajay"
+  }
+  [1]=>
+  object(Student)#4 (1) {
+    ["name":protected]=>
+    string(6) "Kavuri"
+  }
+}
+
+```
+
 ## Key Points
 1. Non Abstract classes are concrete classes
 1. Interface VS Abstract Class: Abstract classes are classes with methods and implementation. They contain abstract methods which impose the methods that needs to be implemented by child class that extends them. Interfaces are templates for the classes that implement them.
