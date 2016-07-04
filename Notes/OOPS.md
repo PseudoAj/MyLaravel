@@ -439,6 +439,8 @@ array(2) {
 }
 ```
 
+Lesson 6:
+
 ## Key Points
 1. Non Abstract classes are concrete classes
 1. Interface VS Abstract Class: Abstract classes are classes with methods and implementation. They contain abstract methods which impose the methods that needs to be implemented by child class that extends them. Interfaces are templates for the classes that implement them.
