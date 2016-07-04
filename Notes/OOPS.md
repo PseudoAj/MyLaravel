@@ -328,6 +328,117 @@ array(2) {
 
 ```
 
+## Lesson 6: Namespacing and autoloading
+
+A proper way to write the classes is to have one script per class. Let's take the above example and write it in three scripts. To load the dependencies we can use composer. Use `composer require <package name>` which will generate `vendor/autoload.php`. By simply creating a `composer.json` file we can load all the classes. One point to note here is that namespaces are needed to load the classes properly. So here is the example:
+
+1. We include `composer.json`
+```PHP
+{
+  "autoload": {
+    "psr-4": {
+        "MyLaravel\\": "src"
+    }
+  }
+}
+```
+
+1. Save the directory structure similar to name space and update `Student.php`, `Course.php` and `University.php`
+
+```PHP
+<?php
+
+namespace MyLaravel; //way to label and organize classes
+
+class Student{
+
+  protected $name; //declare the name
+
+  public function __construct($name){
+    $this->name=$name;//assign the name
+  }
+}
+```
+
+```PHP
+<?php
+
+namespace MyLaravel; //way to label and organize classes
+
+class University{
+
+  protected $course;
+
+  public function __construct(Course $course){
+    $this->course=$course;
+  }
+
+  public function enroll(Student $name){//type hinting in action
+    $this->course->add($name);
+  }
+
+  public function getCourseStudents(){
+    return $this->course->getRegistered();
+  }
+}
+
+```
+
+```PHP
+<?php
+
+namespace MyLaravel; //way to label and organize classes
+
+class Course{
+
+  protected $enrolled =[];
+  //if you want to add it right away
+  public function __construct($enroll=[]){//default to array
+    $this->enrolled=$enroll;
+  }
+  //if you want to call separate method
+  public function add(Student $name){
+    $this->enrolled[] = $name;
+  }
+  //return array
+  public function getRegistered(){
+    return $this->enrolled;
+  }
+}
+
+```
+
+Lastly, Update the main class with namespaces `l6.php`
+
+```PHP
+<?php
+
+require 'vendor/autoload.php';
+
+$newStudent = new MyLaravel\Student("Ajay");
+$newCourse = new MyLaravel\Course([$newStudent]);
+$myUniversity = new MyLaravel\University($newCourse);
+$myUniversity->enroll(new MyLaravel\Student("Kavuri"));
+var_dump($myUniversity->getCourseStudents());
+
+```
+
+Output:
+```php
+array(2) {
+  [0]=>
+  object(MyLaravel\Student)#3 (1) {
+    ["name":protected]=>
+    string(4) "Ajay"
+  }
+  [1]=>
+  object(MyLaravel\Student)#5 (1) {
+    ["name":protected]=>
+    string(6) "Kavuri"
+  }
+}
+```
+
 ## Key Points
 1. Non Abstract classes are concrete classes
 1. Interface VS Abstract Class: Abstract classes are classes with methods and implementation. They contain abstract methods which impose the methods that needs to be implemented by child class that extends them. Interfaces are templates for the classes that implement them.
