@@ -439,7 +439,88 @@ array(2) {
 }
 ```
 
-Lesson 6:
+## Lesson 7: Statics and Constants
+Having a static method will allow us to bypass instance and directly call the method. Static is anti-pattern in most of the cases. We use scope resolution operator `::` to access static properties and methods. Statics break encapsulation and are shared among the instances. Example:
+```PHP
+<?php
+
+class Calculator{
+  //declare the method as a static
+  public static function add(...$num){
+    return array_sum($num);
+  }
+}
+
+echo Calculator::add(1,2,3);
+```
+
+Output: `6`
+
+Sometimes the objects might have the values that are not expected to change. Constants are used to access them. Also, laravel source has some global functions declared as static. Example:
+```PHP
+<?php
+
+class Calculator{
+  //Static constant values that won't change
+  const pi=3.14;
+  //declare the method as a static
+  public static function add(...$num){
+    return array_sum($num);
+  }
+}
+
+echo Calculator::add(1,2,3);
+echo Calculator::pi;
+
+```
+Output: `63.14`
+
+## Lesson 8: Interfaces
+Interfaces aren't for the real logic. It is a contract for the classes implementing it.Interfaces allow us to swap the specific classes by grouping them under an interface. The strategy is:
+> Program to an interface not implementation
+
+Example:
+```PHP
+<?php
+
+Interface Vehicles{
+  public function numberOfWheels($brand);
+}
+
+class Car implements Vehicles{
+  //implements the contract
+  public function numberOfWheels($brand){
+    var_dump('4: '. $brand);
+  }
+}
+
+class Bike implements Vehicles{
+  //implements the contract
+  public function numberOfWheels($brand){
+    var_dump('2: '. $brand);
+  }
+}
+
+
+// Using the classes defined above
+class Ajay{
+  protected $vehicle;
+  public function __construct(Vehicles $vehicle){
+    $this->vehicle=$vehicle;
+  }
+  public function showMyVehicle(){
+    $brand="Honda";
+    $this->vehicle->numberOfWheels($brand);
+  }
+}
+
+//Execute
+$me=new Ajay(new Bike);
+$me->showMyVehicle();
+```
+Output: `string(8) "2: Honda"`
+
+We can simple swap between Bike and Car in the execution but not the actual class implementations. This way we can extend the classes without any issues.
 
 ## Key Points
 1. Non Abstract classes are concrete classes
