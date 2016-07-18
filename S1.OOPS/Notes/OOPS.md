@@ -1,4 +1,4 @@
-# php OOPS Concepts
+# PHP OOPS Concepts
 
 Object oriented programming concepts are fundamental knowledge needed to work with Laravel.
 
