@@ -4,6 +4,9 @@ Laravel core features and development aspects visited.
 
 ## Lesson 1: Initial Setup
 
+Following are two virtual boxes built:
+1. [Using custom laravel box](../Vagrant)
+
 ## Key concepts
 
 ## References

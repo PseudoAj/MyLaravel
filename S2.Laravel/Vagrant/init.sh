@@ -6,11 +6,23 @@
 #date            :20160718
 #version         :0.1
 #==============================================================================
-cd .
-composer global require "laravel/installer"
+
+# Change the directory
+cd /home/vagrant
+
+# Set up laravel installer
+composer global require "laravel/installer=~1.1"
+
+# Set the path variable
 export PATH=~/.config/composer/vendor/bin:$PATH
+
+#create a sample laravel project
 laravel new MyLaravel
+
+#Move into Apache
 sudo mv ~/MyLaravel /var/www/html
+
+# Set the configurations
 chmod 775 /var/www/html/MyLaravel/storage
 sudo chown -R apache:apache /var/www/html/MyLaravel
 sudo chmod 755 /var/www
