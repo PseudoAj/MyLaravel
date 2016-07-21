@@ -56,5 +56,3 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
-
-echo "<h1> Test page by @pseudoaj</h1>";

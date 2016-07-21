@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Simple example to add the new route
+Route::get('about', function(){
+  return view('static.about');
+});

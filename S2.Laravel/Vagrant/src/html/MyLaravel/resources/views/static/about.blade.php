@@ -38,7 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">@Pseudoaj has loaded Laravel 5 successfully</div>
+                <div class="title">@Pseudoaj implemented an about page</div>
             </div>
         </div>
     </body>
