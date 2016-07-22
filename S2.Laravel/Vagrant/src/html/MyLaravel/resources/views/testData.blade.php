@@ -38,7 +38,16 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">About</div>
+                <div class="title">Hi.<br/>from,
+                  <!-- blade engine -->
+                  @if(empty($me))
+                      null.
+                  @else
+                    @foreach($me as $me)
+                      {{$me}}
+                    @endforeach
+                  @endif
+                </div>
             </div>
         </div>
     </body>
