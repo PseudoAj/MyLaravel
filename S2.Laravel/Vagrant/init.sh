@@ -20,7 +20,7 @@ export PATH=~/.config/composer/vendor/bin:$PATH
 laravel new MyLaravel
 
 #Move into Apache
-sudo mv ~/MyLaravel /var/www/html
+sudo mv /home/vagrant/MyLaravel /var/www/html
 
 # Set the configurations
 chmod 775 /var/www/html/MyLaravel/storage
