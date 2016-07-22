@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 ```
-The above snippet implies that when there is a get request at `/` the inline function is executed. For more complex functions we might use controller. 
+The above snippet implies that when there is a get request at `/` the inline function is executed. For more complex functions we might use controller.
 
 Creating a new view is very simple. Just add new entry into `routes.php` and create page in `resources/views`.
 As an example we can create the about page by adding:
@@ -27,6 +27,9 @@ Route::get('about', function(){
 });
 ```
 Also we can group the pages under folder and refer them as `folder.page` or `folder/page`.
+
+## Lesson 3: View Data and Blade
+
 
 ## Key concepts
 1. Views in Resources
