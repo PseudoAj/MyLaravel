@@ -11,7 +11,7 @@
 cd /home/vagrant
 
 # Set up laravel installer
-composer global require "laravel/installer=~1.1"
+composer global require "laravel/installer"
 
 # Set the path variable
 export PATH=~/.config/composer/vendor/bin:$PATH

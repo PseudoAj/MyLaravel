@@ -86,7 +86,7 @@ Simple use the template and create method to populate the view. For example to u
 public function test(){
 	//Array to pass
     $me=['Ajay','Krishna','Teja','Kavuri'];
-    
+
     //As a second argument using key value pair
     //return view('testData',['me'=>$me]);
 
@@ -118,7 +118,7 @@ Now just simply update the section using:
 Using `@yeild` we could quickly update the sections and manuplate the templating.
 
 ## How to Manage Your CSS and JS
-We could include css and js using the using `/css/style.css` in `public directory`. But clearly this won't scale well. Elixir
+We could include css and js using the using `/css/style.css` in `public directory`. But clearly this won't scale well. Elixir is laravel tool for managing the build process.
 
 
 ## Key concepts
