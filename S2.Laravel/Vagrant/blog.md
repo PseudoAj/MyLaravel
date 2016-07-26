@@ -1,6 +1,6 @@
 # Laravel 5.2 on CentOS 7.2 up and running
 
-I was asked to develop this web application for an academic research project recently and I was looking for robust backend framework. `PHP` was my obvious choice but there are tons for frameworks written in `PHP`, so like any other millennial I have decided to look what's trending :
+I was asked to develop this web application for an academic research project recently and I was looking for robust backend framework. PHP was my obvious choice but there are tons of frameworks written in PHP, so like any other millennial I have decided to look what's trending :
 
 ![Google trending](https://lh3.googleusercontent.com/TqVGqKeq9Ce9x9Aq5b1tX37oJyfLGoQME_XOfDNSJdWTHrCIbRk9Ba45b5aV8P7GHyl2YIdcMzhm0w=w867-h546-no)
 
@@ -36,7 +36,7 @@ Note: I assume that the readers have basic understanding of vagrant/virtual deve
     	end
     end
     ```
-1. Now, you can see that we have directed for a provision file `bootstrap.sh`, let's create `bootstrap.sh` in your project directory. So it will be `Vagrant/bootstrap.sh`
+1. Now, you can see that we have included a provision file `bootstrap.sh`, let's create `bootstrap.sh` in your project directory. So it will be `Vagrant/bootstrap.sh`
 
 ## 2. Install LAMP stack and composer
 1. We will install the lamp stack and composer with vagrant provision so that it is simple enough for us to install laravel from there onwards. Open `bootstrap.sh` and include:
@@ -91,14 +91,54 @@ Note: I assume that the readers have basic understanding of vagrant/virtual deve
   ```
 Note: Feel free to go ahead and change the header of this bash file
 
-1. Now your vagrant environment is ready. Go ahead and do a `vagrant up` from your project directory. in my case project directory will be `Vagrant`. If everything goes well you should see something like:
-
+1. Now your vagrant environment is ready. Go ahead and do a `vagrant up` from your project directory. In my case project directory will be `Vagrant`.
 
 ## 3. Install and configure laravel with composer
 1. Run `vagarnt ssh` to get into your vagrant box
-1. Install the laravel installer using:
-  ```bash
-  composer global require "laravel/installer"
-  ```
-1. Export the path for laravel command line tool. You can add this to `~/.bashrc` or just run it for once to get `laravel installer`
- 
+1. Change your directory, I choose `vagrant` filepath so that I can see changes on my local machine.
+```bash
+cd /home/vagrant
+```
+1. Install laravel installer
+```bash
+composer global require "laravel/installer"
+```
+1. export the path for using `laravel` tool set
+```bash
+export PATH=~/.config/composer/vendor/bin:$PATH
+```
+1. Create a new laravel project
+```bash
+laravel new MyLaravel
+```
+1. move your project to apache folder
+```bash
+sudo mv /home/vagrant/MyLaravel /var/www/html
+```
+1. Change the permissions for laravel storage and apache
+```bash
+chmod 775 /var/www/html/MyLaravel/storage
+sudo chown -R apache:apache /var/www/html/MyLaravel
+sudo chmod 755 /var/www
+```
+1. Add VirtualHost to httpd config
+```bash
+Alias /MyLaravel /var/www/html/MyLaravel/public
+<VirtualHost *:80>
+       DocumentRoot /var/www/html/MyLaravel/public
+
+       <Directory /var/www/html/MyLaravel>
+              AllowOverride All
+       </Directory>
+</VirtualHost>
+```
+1. Restart the apache
+```bash
+sudo systemctl restart httpd
+```
+## 4. Demo
+Once you open your vagrant host which should be http://192.168.56.6 (if you use the same vagrantfile) you should see something like this:
+![Laravel](http://i.giphy.com/l46CkQtr1LbsbCQsE.gif)
+
+## Remarks
+I am very much aware that laravel comes with it's own server and lot simpler to just install `php` and use laravel installer but this method will give me superhero powers to destroy and rebuild environment and also allow me to deploy this on a production server lot quicker.

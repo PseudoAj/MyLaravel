@@ -38,3 +38,6 @@ Route::get('testData',function(){
 
 //Simple controller example
 Route::get('testController','TestController@test');
+
+Route::get('data','DataController@index');
+Route::get('data/{id}','DataController@show');

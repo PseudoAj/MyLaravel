@@ -12,6 +12,9 @@
                 <div class="title">
                   @yield('mytitle')
                 </div>
+                <div class="content">
+                  @yield('content')
+                </div>
             </div>
         </div>
     </body>

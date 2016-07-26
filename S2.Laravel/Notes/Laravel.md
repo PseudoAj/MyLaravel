@@ -117,9 +117,93 @@ Now just simply update the section using:
 ```
 Using `@yeild` we could quickly update the sections and manuplate the templating.
 
-## How to Manage Your CSS and JS
-We could include css and js using the using `/css/style.css` in `public directory`. But clearly this won't scale well. Elixir is laravel tool for managing the build process.
+## Lesson 6: How to Manage Your CSS and JS
+We could include css and js using the using `/css/style.css` in `public directory`. But clearly this won't scale well. Elixir is laravel tool for managing the build process. `package.json` contains the required dependencies. We need to install node.js before we could use Elixir:
+```bash
+sudo yum install nodejs
+sudo yum install npm
+```
+Once npm is installed, run `npm install` to install all the dependencies.
+Once installed we can use elixir for build process. Also, install gulp using `npm install --global gulp`. As an illustration  change `resources\assets\sass\app.scss` and run gulp which will build the required dependencies for us. We can version a elixir property using:
+```php
+elixir(function(mix) {
+    mix.sass('app.scss')
+      .version('css/app.css');
+});
+```
+and add:
+```php
+<link href="{{elixir('css/app.css')}}" rel="stylesheet" type="text/css">
+```
+This will create hashed versions in `public/build`. While in production this can be used as caches.
 
+## Lesson 7: Fetching Data
+We could use routes to follow the REST principles to deal with the data. Create a new controller and update the routes:
+```php
+Route::get('testController','DataController@');
+```
+Two ways to work with database:
+1. Use query builder: +
+The file `config/database.php` hosts a variety of files. For simplicity we can use sqlite. Create a new file using:
+`touch database/database.sqlite`
+Laravel uses migrations to define database queries. We can create new migration using:
+```php
+php artisan make:migration create_news_table --create=news
+```
+Open and edit your migration. Once the required fields are added just run:
+```php
+php artisan migrate
+```
+create a simple DB insert from `php artisan tinker`:
+```php
+DB::table('news')->insert(['title'=>'Test','desc'=>'Dummy news','created_at'=> new DateTime,'updated_at'=> new DateTime]);
+```
+Now, that DB is ready we can use controller to pull the data from DB and pass it to view. Example:
+```php
+$news=DB::table('news')->get();
+return view('data.index')->withNews($news);
+```
+Post in the form:
+```php
+@foreach($news as $news)
+<div>
+  {{$news->title}}
+</div>
+<div>
+  {{$news->desc}}
+</div>
+@endforeach
+```
+1. Use eloquent
+Eloquent uses active record pattern. We can use:
+```php
+php artisan make:model news
+```
+This will create the model and it represents as a class for each record. Modify the controller:
+```php
+$news=news::all();
+return view('data.index')->withNews($news);
+```
+Further, we can query particular record by using id, just update the route and controller with:
+```php
+Route::get('data/{id}','DataController@show');
+```
+```php
+public function show($id){
+  return $id;
+}
+```
+Instead of querying with id we could just typehint it:
+```php
+public function show(News $id){
+  //$article=news::find($id);
+  return view('data.show')->withArticle($id);
+  //return $id;
+}
+```
+
+## Lesson 8: Defining Relationships With Eloquent
+We can define relationships very naturally. 
 
 ## Key concepts
 1. Views in Resources
