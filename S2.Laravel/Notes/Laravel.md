@@ -143,67 +143,69 @@ We could use routes to follow the REST principles to deal with the data. Create 
 Route::get('testController','DataController@');
 ```
 Two ways to work with database:
-1. Use query builder: +
-The file `config/database.php` hosts a variety of files. For simplicity we can use sqlite. Create a new file using:
-`touch database/database.sqlite`
-Laravel uses migrations to define database queries. We can create new migration using:
-```php
-php artisan make:migration create_news_table --create=news
-```
-Open and edit your migration. Once the required fields are added just run:
-```php
-php artisan migrate
-```
-create a simple DB insert from `php artisan tinker`:
-```php
-DB::table('news')->insert(['title'=>'Test','desc'=>'Dummy news','created_at'=> new DateTime,'updated_at'=> new DateTime]);
-```
-Now, that DB is ready we can use controller to pull the data from DB and pass it to view. Example:
-```php
-$news=DB::table('news')->get();
-return view('data.index')->withNews($news);
-```
-Post in the form:
-```php
-@foreach($news as $news)
-<div>
-  {{$news->title}}
-</div>
-<div>
-  {{$news->desc}}
-</div>
-@endforeach
-```
-1. Use eloquent
-Eloquent uses active record pattern. We can use:
-```php
-php artisan make:model news
-```
-This will create the model and it represents as a class for each record. Modify the controller:
-```php
-$news=news::all();
-return view('data.index')->withNews($news);
-```
-Further, we can query particular record by using id, just update the route and controller with:
-```php
-Route::get('data/{id}','DataController@show');
-```
-```php
-public function show($id){
-  return $id;
-}
-```
-Instead of querying with id we could just typehint it:
-```php
-public function show(News $id){
-  //$article=news::find($id);
-  return view('data.show')->withArticle($id);
-  //return $id;
-}
-```
+1. Use query builder:
+
+  The file `config/database.php` hosts a variety of files. For simplicity we can use sqlite. Create a new file using:
+  `touch database/database.sqlite`
+  Laravel uses migrations to define database queries. We can create new migration using:
+  ```php
+  php artisan make:migration create_news_table --create=news
+  ```
+  Open and edit your migration. Once the required fields are added just run:
+  ```php
+  php artisan migrate
+  ```
+  create a simple DB insert from `php artisan tinker`:
+  ```php
+  DB::table('news')->insert(['title'=>'Test','desc'=>'Dummy news','created_at'=> new DateTime,'updated_at'=> new DateTime]);
+  ```
+  Now, that DB is ready we can use controller to pull the data from DB and pass it to view. Example:
+  ```php
+  $news=DB::table('news')->get();
+  return view('data.index')->withNews($news);
+  ```
+  Post in the form:
+  ```php
+  @foreach($news as $news)
+  <div>
+    {{$news->title}}
+  </div>
+  <div>
+    {{$news->desc}}
+  </div>
+  @endforeach
+  ```
+1. Using eloquent
+
+  Eloquent uses active record pattern. We can use:
+  ```php
+  php artisan make:model news
+  ```
+  This will create the model and it represents as a class for each record. Modify the controller:
+  ```php
+  $news=news::all();
+  return view('data.index')->withNews($news);
+  ```
+  Further, we can query particular record by using id, just update the route and controller with:
+  ```php
+  Route::get('data/{id}','DataController@show');
+  ```
+  ```php
+  public function show($id){
+    return $id;
+  }
+  ```
+  Instead of querying with id we could just typehint it:
+  ```php
+  public function show(News $id){
+    //$article=news::find($id);
+    return view('data.show')->withArticle($id);
+    //return $id;
+  }
+  ```
 
 ## Lesson 8: Defining Relationships With Eloquent
-We can define relationships very naturally. 
+We can define relationships very naturally. Suppose we create two tables cards and notes with each card having many notes, 
 
 ## Key concepts
 1. Views in Resources

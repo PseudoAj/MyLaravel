@@ -38,6 +38,10 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 echo -e "----Started Apache----\n\n"
 
+# Start and set MySQL
+sudo systemctl start mysqld
+sudo systemctl enable mysqld
+
 # Install composer
 curl -sS https://getcomposer.org/installer | php
 sudo chmod +x composer.phar
